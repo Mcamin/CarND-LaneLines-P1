@@ -28,3 +28,31 @@ Jupyter is an Ipython notebook where you can run blocks of code and see results 
 A browser window will appear showing the contents of the current directory.  Click on the file called "P1.ipynb".  Another browser window will appear displaying the notebook.  Follow the instructions in the notebook to complete the project.  
 
 **Step 3:** Complete the project and submit both the Ipython notebook and the project writeup
+
+# Reflection 
+
+
+## Pipeline
+#### 1. Convert original image to grayscale.
+#### 2. Apply Gaussian Blur with the chosen kernel.
+#### 3. Apply canny Edge Detector (adjust the thresholds — trial and error) to obtain edges.
+#### 4. Define the Region of Interest. This helps in weeding out unwanted edges detected by canny edge detector.
+#### 5. Apply an image mask according to chosen set of region of interest coordinates.
+#### 6. Retrieve Hough lines within a region of interest according to given set of hyperparameters.
+#### 7. Fuse image containing those Hough lines with the original image
+
+#### the draw_lines() function was modified in order to draw a single line on the left and right lanes:
+
+* #### All obtained Hough lines were separated into two heaps denoting left and right lanes according to their slope ('m' in y = mx + b equation). As vertical axis increases from top to down, negative slopes go to the left heap, positive - to the right.
+* #### Average slopes and intercepts (m's and b's in y=mx+b) within each heap. It yields data for 2 linear functions at maximum (one for left and one right lane).
+* #### Compute coordinates of intersection with the button and the upper edges of the region of interest according to obtained functions.
+* #### Draw those averaged lines across the full extent of the region of interest.
+
+
+## Shortcomings
+* #### Hough Lines based on straight lines do not work well for curved road/lane.
+* ####Getting the right hyper parameters involve many trial-and-error. Also Region of Interest assumes that camera stays at same location and lanes are flat. So there is “guess” work or hard coding involved in deciding polygon vertices.
+* #### There are many roads without lane markings where this approach won't work.
+##Future Improvements
+* #### Instead of using lines , it would be better to use higher degree curve that will be useful on curved road.
+* #### Averaging lanes only is not be very good approach even when we used information from previous frames. may be weight average or some form of priority value might be a better approach.
